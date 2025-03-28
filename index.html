@@ -250,42 +250,40 @@
       const quoteBook = document.getElementById('quote-book');
       const contemplation = document.getElementById('quote-contemplation');
 
-      // Add fade-out classes
+      // Remove any existing animation classes
       [quoteText, quoteBook, contemplation].forEach(el => {
-        el.classList.remove('fade-in');
-        el.classList.add('fade-out');
+        el.classList.remove('fade-in', 'fade-out');
       });
 
-      setTimeout(() => {
-        // Update content
-        quoteText.textContent = `"${quoteObj.quote}"`;
-        quoteBook.innerHTML = `<span class="book-numeral">${quoteObj.book}</span>`;
-        contemplation.textContent = `For contemplation: ${quoteObj.contemplation}`;
+      // Update content immediately
+      quoteText.textContent = `"${quoteObj.quote}"`;
+      quoteBook.innerHTML = `<span class="book-numeral">${quoteObj.book}</span>`;
+      contemplation.textContent = `For contemplation: ${quoteObj.contemplation}`;
 
-        // Show/hide contemplation based on quote length
-        container.classList.toggle('short-quote', quoteObj.quote.length < 100);
+      // Toggle display for short quotes
+      container.classList.toggle('short-quote', quoteObj.quote.length < 100);
 
-        // Remove fade-out and add fade-in
-        [quoteText, quoteBook, contemplation].forEach(el => {
-          el.classList.remove('fade-out');
-          el.classList.add('fade-in');
-        });
+      // Trigger fade-in animation
+      [quoteText, quoteBook, contemplation].forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = "translateY(10px)";
+        el.classList.add('fade-in');
+      });
 
-        // Adjust font size for longer quotes
-        if (quoteObj.quote.length > 200) {
-          quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
-        } else {
-          quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
-        }
-      }, 300);
+      // Adjust font size for longer quotes
+      if (quoteObj.quote.length > 200) {
+        quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
+      } else {
+        quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
+      }
     }
 
     function nextQuote() {
       setRandomQuote();
     }
 
-    // Initialize with a random quote
-    window.onload = setRandomQuote;
+    // Use DOMContentLoaded to ensure the DOM is ready
+    document.addEventListener("DOMContentLoaded", setRandomQuote);
   </script>
 </body>
 </html>
