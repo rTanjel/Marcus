@@ -6,7 +6,8 @@
   <title>Stoic Quotes - Dark Mode</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500&family=Noto+Serif:wght@200;500&display=swap" rel="stylesheet">
+  <!-- Using Noto Sans and Noto Serif -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500&family=Noto+Serif:wght@200;500&display=swap" rel="stylesheet" />
   <style>
     * {
       box-sizing: border-box;
@@ -68,7 +69,7 @@
     
     .quote-book {
       font-family: 'Noto Sans', sans-serif;
-      color: #bbbbbb;
+      color: #cccccc;
       font-size: 0.9rem;
       font-weight: 300;
       margin-bottom: 0.5rem;
@@ -88,8 +89,9 @@
     }
     
     .quote-contemplation {
+      display: none;
       font-family: 'Noto Sans', sans-serif;
-      color: #cccccc;
+      color: #bbbbbb;
       font-size: 0.875rem;
       font-weight: 300;
       letter-spacing: 0.02em;
@@ -98,6 +100,11 @@
       transform: translateY(10px);
       animation: fadeIn 0.6s ease 0.2s forwards;
       padding: 0 1rem;
+    }
+    
+    /* Show contemplation only for short quotes */
+    .short-quote .quote-contemplation {
+      display: block;
     }
     
     @keyframes fadeIn {
@@ -114,8 +121,13 @@
       }
     }
     
-    .fade-in { animation: fadeIn 0.6s ease forwards; }
-    .fade-out { animation: fadeOut 0.3s ease forwards; }
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .fade-out {
+      animation: fadeOut 0.3s ease forwards;
+    }
     
     @media (max-width: 480px) {
       .quote-container {
@@ -144,9 +156,11 @@
       <p class="quote-contemplation" id="quote-contemplation"></p>
     </div>
   </div>
-
+  
   <script>
+    // Expanded Quotes Data
     const quotes = [
+    
       {
         quote: "When you wake up in the morning, tell yourself: The people I deal with today will be meddling, ungrateful, arrogant, dishonest, jealous, and surly. They are like this because they can't tell good from evil.",
         book: "Book II",
@@ -229,6 +243,11 @@
         contemplation: "How can obstacles in your life be turned into opportunities?"
       },
       {
+        quote: "Dwell on the beauty of life. Watch the stars, and see yourself running with them.",
+        book: "Meditations",
+        contemplation: "What beauty do you notice in the world around you today?"
+      },
+      {
         quote: "It is not death that a man should fear, but he should fear never beginning to live.",
         book: "Book V",
         contemplation: "What actions can you take today to truly begin living?"
@@ -275,6 +294,7 @@
       }
     ];
     
+    
     let currentQuoteIndex = -1;
     
     function setRandomQuote() {
@@ -292,38 +312,44 @@
       const quoteText = document.getElementById('quote-text');
       const quoteBook = document.getElementById('quote-book');
       const contemplation = document.getElementById('quote-contemplation');
-    
-      // Remove any existing animation classes and update content
+      
+      // Fade out existing content
       [quoteText, quoteBook, contemplation].forEach(el => {
-        el.classList.remove('fade-in', 'fade-out');
+        el.classList.remove('fade-in');
+        el.classList.add('fade-out');
       });
-    
-      quoteText.textContent = `"${quoteObj.quote}"`;
-      quoteBook.innerHTML = `<span class="book-numeral">${quoteObj.book}</span>`;
-      contemplation.textContent = `${quoteObj.contemplation}`;
-    
-      // Trigger fade-in animations
-      [quoteText, quoteBook, contemplation].forEach(el => {
-        el.style.opacity = 0;
-        el.style.transform = "translateY(10px)";
-        void el.offsetWidth;
-        el.classList.add('fade-in');
-      });
-    
-      // Adjust font size for longer quotes if needed
-      if (quoteObj.quote.length > 200) {
-        quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
-      } else {
-        quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
-      }
+      
+      setTimeout(() => {
+        // Update content
+        quoteText.textContent = `"${quoteObj.quote}"`;
+        quoteBook.innerHTML = `<span class="book-numeral">${quoteObj.book}</span>`;
+        contemplation.textContent = `For contemplation: ${quoteObj.contemplation}`;
+        
+        // Show contemplation only if quote length is short
+        container.classList.toggle('short-quote', quoteObj.quote.length < 100);
+        
+        // Fade in new content
+        [quoteText, quoteBook, contemplation].forEach(el => {
+          el.classList.remove('fade-out');
+          el.classList.add('fade-in');
+        });
+        
+        // Adjust font size for longer quotes
+        if (quoteObj.quote.length > 200) {
+          quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
+        } else {
+          quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
+        }
+      }, 300);
     }
     
     function nextQuote() {
       setRandomQuote();
     }
     
-    // Initialize with a random quote
-    document.addEventListener("DOMContentLoaded", setRandomQuote);
+    // Initialize with a random quote on window load
+    window.onload = setRandomQuote;
   </script>
 </body>
 </html>
+
