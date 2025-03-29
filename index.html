@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stoic Quotes - Dark Mode</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500&family=Noto+Serif:wght@200;500&display=swap" rel="stylesheet">
   <style>
     * {
@@ -13,7 +13,7 @@
       margin: 0;
       padding: 0;
     }
-
+    
     body {
       min-height: 100vh;
       width: 100vw;
@@ -25,7 +25,7 @@
       overflow: hidden;
       color: #e0e0e0;
     }
-
+    
     .quote-container {
       padding: 2rem;
       width: 90%;
@@ -42,17 +42,17 @@
       display: flex;
       align-items: center;
     }
-
+    
     .quote-container:hover {
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.7);
     }
-
+    
     .quote-content {
       text-align: center;
       max-width: 600px;
       margin: 0 auto;
     }
-
+    
     .quote-text {
       font-family: 'Noto Serif', serif;
       font-size: clamp(1rem, 3vw, 1.6rem);
@@ -65,7 +65,7 @@
       transform: translateY(10px);
       animation: fadeIn 0.6s ease forwards;
     }
-
+    
     .quote-book {
       font-family: 'Noto Sans', sans-serif;
       color: #bbbbbb;
@@ -81,15 +81,13 @@
       justify-content: center;
       gap: 0.5rem;
     }
-
+    
     .book-numeral {
       font-family: 'Noto Serif', serif;
       font-weight: 500;
     }
-
-    /* Optional: Only show contemplation for shorter quotes */
+    
     .quote-contemplation {
-      display: none; /* Hidden by default */
       font-family: 'Noto Sans', sans-serif;
       color: #cccccc;
       font-size: 0.875rem;
@@ -101,29 +99,24 @@
       animation: fadeIn 0.6s ease 0.2s forwards;
       padding: 0 1rem;
     }
-
-    /* Show contemplation only for quotes shorter than 100 characters */
-    .short-quote .quote-contemplation {
-      display: block;
-    }
-
+    
     @keyframes fadeIn {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-
+    
     @keyframes fadeOut {
       to {
         opacity: 0;
         transform: translateY(-10px);
       }
     }
-
+    
     .fade-in { animation: fadeIn 0.6s ease forwards; }
     .fade-out { animation: fadeOut 0.3s ease forwards; }
-
+    
     @media (max-width: 480px) {
       .quote-container {
         padding: 1.5rem;
@@ -153,7 +146,6 @@
   </div>
 
   <script>
-    // Quotes Data
     const quotes = [
       {
         quote: "When you wake up in the morning, tell yourself: The people I deal with today will be meddling, ungrateful, arrogant, dishonest, jealous, and surly. They are like this because they can't tell good from evil.",
@@ -229,11 +221,62 @@
         quote: "The soul becomes dyed with the color of its thoughts.",
         book: "Book V",
         contemplation: "How do your habitual thoughts affect your character and actions?"
+      },
+      // Additional Quotes
+      {
+        quote: "The impediment to action advances action. What stands in the way becomes the way.",
+        book: "Book III",
+        contemplation: "How can obstacles in your life be turned into opportunities?"
+      },
+      {
+        quote: "It is not death that a man should fear, but he should fear never beginning to live.",
+        book: "Book V",
+        contemplation: "What actions can you take today to truly begin living?"
+      },
+      {
+        quote: "If it is not right, do not do it; if it is not true, do not say it.",
+        book: "Book IX",
+        contemplation: "How do you ensure that your actions and words align with your values?"
+      },
+      {
+        quote: "When you arise in the morning, think of what a privilege it is to be alive.",
+        book: "Book II",
+        contemplation: "How can gratitude shape your day from the very start?"
+      },
+      {
+        quote: "Accept whatever comes to you woven in the pattern of your destiny, for what could more aptly fit your needs?",
+        book: "Book VIII",
+        contemplation: "How do you embrace life's uncertainties with grace and resilience?"
+      },
+      {
+        quote: "The universe is change; our life is what our thoughts make it.",
+        book: "Book VII",
+        contemplation: "In what ways can you shape your reality through your perspective?"
+      },
+      {
+        quote: "Reject your sense of injury and the injury itself disappears.",
+        book: "Book VI",
+        contemplation: "What if you let go of perceived slights?"
+      },
+      {
+        quote: "Everything that happens happens as it should, and if you observe carefully, you will find this to be so.",
+        book: "Book XII",
+        contemplation: "How might accepting the natural order of events ease your worries?"
+      },
+      {
+        quote: "The art of living is more like wrestling than dancing.",
+        book: "Book X",
+        contemplation: "How can you navigate life's challenges with strength and agility?"
+      },
+      {
+        quote: "Confine yourself to the present.",
+        book: "Book III",
+        contemplation: "What can you do now, in this very moment, to move forward?"
       }
     ];
-
+    
     let currentQuoteIndex = -1;
-
+    
     function setRandomQuote() {
       let newIndex;
       do {
@@ -243,46 +286,43 @@
       currentQuoteIndex = newIndex;
       displayQuote(quotes[currentQuoteIndex]);
     }
-
+    
     function displayQuote(quoteObj) {
       const container = document.querySelector('.quote-container');
       const quoteText = document.getElementById('quote-text');
       const quoteBook = document.getElementById('quote-book');
       const contemplation = document.getElementById('quote-contemplation');
-
-      // Remove any existing animation classes
+    
+      // Remove any existing animation classes and update content
       [quoteText, quoteBook, contemplation].forEach(el => {
         el.classList.remove('fade-in', 'fade-out');
       });
-
-      // Update content immediately
+    
       quoteText.textContent = `"${quoteObj.quote}"`;
       quoteBook.innerHTML = `<span class="book-numeral">${quoteObj.book}</span>`;
-      contemplation.textContent = `For contemplation: ${quoteObj.contemplation}`;
-
-      // Toggle display for short quotes
-      container.classList.toggle('short-quote', quoteObj.quote.length < 100);
-
-      // Trigger fade-in animation
+      contemplation.textContent = `${quoteObj.contemplation}`;
+    
+      // Trigger fade-in animations
       [quoteText, quoteBook, contemplation].forEach(el => {
         el.style.opacity = 0;
         el.style.transform = "translateY(10px)";
+        void el.offsetWidth;
         el.classList.add('fade-in');
       });
-
-      // Adjust font size for longer quotes
+    
+      // Adjust font size for longer quotes if needed
       if (quoteObj.quote.length > 200) {
         quoteText.style.fontSize = 'clamp(0.875rem, 2.5vw, 1.2rem)';
       } else {
         quoteText.style.fontSize = 'clamp(1rem, 3vw, 1.6rem)';
       }
     }
-
+    
     function nextQuote() {
       setRandomQuote();
     }
-
-    // Use DOMContentLoaded to ensure the DOM is ready
+    
+    // Initialize with a random quote
     document.addEventListener("DOMContentLoaded", setRandomQuote);
   </script>
 </body>
